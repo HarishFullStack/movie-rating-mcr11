@@ -1,6 +1,5 @@
 import { createContext, useState } from "react";
 import { movies as moviesData } from "../db/movies";
-import { wait } from "@testing-library/user-event/dist/utils";
 
 export const MoviesContext = createContext();
 
@@ -10,7 +9,7 @@ export function MoviesProvider({children}){
     const [movies, setMovies] = useState(moviesData);
     const [watchlist, setWatchlist] = useState([]);
     const [starredList, setStarredList] = useState([]);
-    const [genres, setGenres] = useState(['Crime', 'Drama', 'Action', 'Adventure', 'Fantasy', 'Romance', 'Sci-Fi', 'Biography']);
+    const genres = ['Crime', 'Drama', 'Action', 'Adventure', 'Fantasy', 'Romance', 'Sci-Fi', 'Biography'];
 
     const addMovie = (movie) => {
         setMovies([...movies, movie]);

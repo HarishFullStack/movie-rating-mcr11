@@ -3,7 +3,7 @@ import { MoviesContext } from "../context.js/MoviesContext";
 
 export function AddMovie(){
 
-    const {movies, genres, addMovie, addToWatchlist, addToStarredList} = useContext(MoviesContext);
+    const {movies, genres, addMovie} = useContext(MoviesContext);
 
     const [year, setYear] = useState([]);
     const [rating, setRating]= useState (0);

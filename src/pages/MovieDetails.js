@@ -18,18 +18,19 @@ export function MovieDetails(){
 
     useEffect(() => {
         getMovieById();
+                // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return(
-        movie && <div className='row'>
-            <div className="card mb-3" style={{maxWidth: "540px"}}>
+        movie && <div className='row mt-5'>
+            <div className="card mb-3 m-auto" style={{width: "50%"}}>
                 <div className="row g-0">
                     <div className="col-md-4">
                     <img src={movie.imageURL} className="img-fluid rounded-start" alt="not found"/>
                     </div>
                     <div className="col-md-8">
                     <div className="card-body">
-                        <h5 className="card-title">{movie.title}</h5>
+                        <h2 className="card-title">{movie.title}</h2>
                         <p className="card-text">{movie.summary}</p>
                         <p className="card-text"><small className="text-body-secondary">Year: {movie.year}</small></p>
                         <p className="card-text"><small className="text-body-secondary">Genre: {movie.genre}</small></p>

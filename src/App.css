@@ -1,0 +1,28 @@
+.nav-link{
+    color: aliceblue;
+}
+
+.active{
+    color: aliceblue !important;
+}
+
+.navbar-brand{
+    color: aliceblue;
+}
+
+.navbar-brand:hover{
+    color: darkgoldenrod !important;
+}
+
+.nav-link:hover{
+    color: darkgoldenrod !important;
+}
+
+.card>img{
+    height: 18rem;
+    cursor: pointer;
+}
+
+.card{
+    width: 20rem !important;
+}
