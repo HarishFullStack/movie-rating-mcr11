@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect, useReducer } from "react";
 import {useNavigate} from 'react-router-dom';
 import { MoviesContext } from "../context.js/MoviesContext"
 
@@ -6,7 +6,7 @@ export function Movies(){
 
     const navigate = useNavigate();
 
-    const {movies, watchlist, starredList, addToWatchList, addToStarredList} = useContext(MoviesContext);
+    const {movies, genres, year, watchlist, starredList, addToWatchList, addToStarredList} = useContext(MoviesContext);
 
     const starMovie = (movie) => {
         addToStarredList(movie);
@@ -17,24 +17,109 @@ export function Movies(){
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }
 
+    const setState = (state) => {
+        let sortedData = state.initialMovies
+
+        // GENRE
+        sortedData = state.genre !== undefined && state.genre !== "" ? sortedData.filter((item) => item.genre.includes(state.genre)) : state.filteredMovies;
+    
+        // YEAR
+        sortedData = state.year > 0
+            ? sortedData.filter((item) => item.year === state.year)
+            : sortedData;
+        
+        //RATINGS
+        sortedData = state.ratings > 0
+            ? sortedData.filter((item) => item.rating === state.ratings)
+            : sortedData;
+    
+        return { ...state, filteredProducts: sortedData };
+        };
+
+
+        useEffect(() => {
+            dispatch({type: "INITIAL", value: movies});
+                // eslint-disable-next-line react-hooks/exhaustive-deps
+        }, [])
+
+    const reducer = (state, action) => {
+
+        switch (action.type) {
+            case "INITIAL":
+                    return setState({
+                        ...state,
+                        initialMovies: action.value,
+                        filteredMovies: action.value
+                    });
+
+            case "GENRE":
+                return setState({...state, genre: action.value});
+        
+            case "YEAR":
+                return setState({...state, year: action.value});
+
+            case "RATING":
+                return setState({
+                    ...state, rating: action.value
+            });
+
+            default:
+                return state;
+        }
+    };
+
+    const [state, dispatch]= useReducer(reducer, {
+        genre: "",
+        year: 0,
+        ratings: 0,
+        initialMovies: [],
+        filteredMovies: []
+    });
+
     return(
         <div className="container">
             <div className="row mt-5 m-auto">
             <h1 className="col-md-3">Movies </h1>
-            <select className="col-md-2 mx-2">
+            <select className="col-md-2 mx-2" onChange={(event) => dispatch({type: "GENRE", value: event.target.value})}>
                 <option>All Genre</option>
+                {
+                    genres && genres.map((x) => {
+                        return (
+                            <option value={x}>{x}</option>
+                        )
+                    })
+                }
+
             </select>
-            <select className="col-md-2 mx-2">
+            <select className="col-md-2 mx-2" onChange={(event) => dispatch({type: "YEAR", value: event.target.value})}>
                 <option>Release Year</option>
+                {
+                    year && year.map((x) => {
+                        return (
+                            <option value={x}>{x}</option>
+                        )
+                    })
+                }
             </select>
-            <select className="col-md-2 mx-2">
-                <option>Rating</option>
+            <select className="col-md-2 mx-2" onChange={(event) => dispatch({type: "RATING", value: event.target.value})}>
+                <option value="">Rating</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+                    
             </select>
             <button className="btn btn-dark col-md-2 mx-2" onClick={() => navigate('/add-movie')}>Add a Movie</button>
             </div>
             <div className="row mt-5">
             {
-                movies.map((x) => {
+                state.filteredMovies.map((x) => {
                     return(
                         <div className="card m-auto" style={{width: "18rem"}}>
                             <img src={x.imageURL} className="card-img-top" alt="not found"  onClick={() => navigate(`/movie/${x.id}`)}/>

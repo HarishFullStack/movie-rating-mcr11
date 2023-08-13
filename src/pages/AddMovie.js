@@ -1,22 +1,13 @@
-import { useContext, useEffect, useReducer, useState } from "react"
+import { useContext, useReducer, useState } from "react"
 import { MoviesContext } from "../context.js/MoviesContext";
 
 export function AddMovie(){
 
-    const {movies, genres, addMovie} = useContext(MoviesContext);
+    const {movies, year, genres, addMovie} = useContext(MoviesContext);
 
-    const [year, setYear] = useState([]);
     const [rating, setRating]= useState (0);
 
-    const addYear = () => {
-        let years = [];
-        const todaysYear = new Date().getFullYear();
-        for(let i=todaysYear-100; i<=todaysYear+1; i++){
-            years.push(i);
-        }
-        setYear(years);
-
-    }
+    
 
     const reducer = (state, action) => {
         switch(action.type){
@@ -59,14 +50,12 @@ export function AddMovie(){
         addMovie({...state, id:movies.length+1})
     }
 
-    useEffect(() => {
-        addYear();
-    }, [])
-
+   
     return(
-        <div>
+        <div className="container mt-5">
+            <div className="col-sm-12 col-md-6 col-lg-6 col-12 m-auto">
             <h1>Add New Movie</h1>
-            <div className="col-sm-12 col-md-4 col-lg-4 col-12">
+
                 <div className="form-floating mb-3">
                     <input type="text" className="form-control" id="title" placeholder="Title" onChange={(event) => dispatch({ type: "TITLE", value: event.target.value})}/>
                     <label htmlFor="title">Title</label>
@@ -100,7 +89,7 @@ export function AddMovie(){
                         return(
                             <>
                                 <input type="checkbox" class="btn-check" id={x} autocomplete="off" onChange={(event) => dispatch({ type: "GENRE", checked: event.target.checked, value: x})}/>
-                                <label class="btn btn-outline-primary" for={x}>{x}</label>
+                                <label class="btn btn-outline-dark" for={x}>{x}</label>
                             </>
                         )
                     })
@@ -127,8 +116,9 @@ export function AddMovie(){
                     <input type="text" className="form-control" id="imageUrl" placeholder="Image URL" onChange={(event) => dispatch({ type: "IMAGE", value: event.target.value})}/>
                     <label htmlFor="imageUrl">Image URL</label>
                 </div>
+
+                <button className="btn btn-dark" onClick={handleAddMovie}>Add Movie</button>
             </div>
-            <div className=""><button className="btn btn-primary" onClick={handleAddMovie}>Add Movie</button></div>
         </div>
     )
 }
