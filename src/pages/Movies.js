@@ -21,19 +21,19 @@ export function Movies(){
         let sortedData = state.initialMovies
 
         // GENRE
-        sortedData = state.genre !== undefined && state.genre !== "" ? sortedData.filter((item) => item.genre.includes(state.genre)) : state.filteredMovies;
+        sortedData = state.genre !== undefined && state.genre !== "" ? sortedData.filter((item) => item.genre.includes(state.genre)) : sortedData;
     
         // YEAR
         sortedData = state.year > 0
-            ? sortedData.filter((item) => item.year === state.year)
+            ? sortedData.filter((item) => item.year === Number(state.year))
             : sortedData;
         
         //RATINGS
         sortedData = state.ratings > 0
-            ? sortedData.filter((item) => item.rating === state.ratings)
+            ? sortedData.filter((item) => item.rating === Number(state.ratings))
             : sortedData;
     
-        return { ...state, filteredProducts: sortedData };
+        return { ...state, filteredMovies: sortedData };
         };
 
 
@@ -60,7 +60,7 @@ export function Movies(){
 
             case "RATING":
                 return setState({
-                    ...state, rating: action.value
+                    ...state, ratings: action.value
             });
 
             default:
