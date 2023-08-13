@@ -3,11 +3,20 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { BrowserRouter as Router} from 'react-router-dom';
+import { MoviesContext, MoviesProvider } from './context.js/MoviesContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+
+export {MoviesContext}
+
 root.render(
   <React.StrictMode>
-    <App />
+    <MoviesProvider>
+      <Router>
+        <App />
+      </Router>
+    </MoviesProvider>
   </React.StrictMode>
 );
 
